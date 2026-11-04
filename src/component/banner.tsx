@@ -1,8 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import banner from "@/assets/bazar-hero.png"
-// import Link from "next/link";
+import banner from "@/assets/bazar-hero.png";
 const Banner = () => {
   const date = new Date().toLocaleDateString("bn-BD", {
     dateStyle: "full",
@@ -33,13 +32,18 @@ const Banner = () => {
 
             {/* Action Button */}
             <div className="pt-2">
-              {/* <Link href={"#"}> */}
               <button
-                className="rounded-xl bg-[#047C37] text-white px-5 py-2.5 text-sm font-semibold shadow hover:bg-[#03632C] transition-colors"
-                >
+                type="button"
+                onClick={() => {
+                  document.getElementById("allProduct")?.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                  });
+                }}
+                className="rounded-xl bg-[#047C37] px-5 py-2.5 text-sm font-semibold text-white shadow transition-colors hover:bg-[#03632C]"
+              >
                 সব পণ্য দেখুন
               </button>
-                {/* </Link> */}
             </div>
           </div>
 

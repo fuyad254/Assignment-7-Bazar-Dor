@@ -1,10 +1,8 @@
 import logo from "@/assets/logo-icon.png";
-// import React, { useState } from 'react';
-
 import Image from "next/image";
 import Link from "next/link";
-import { ICatagory } from "../type/catagory";
 import Marquee from "./marquee";
+import CategoryNav from "./catagoryNav";
 
 
 
@@ -18,6 +16,7 @@ const Navbar= async ()=> {
     const date= new Date().toLocaleDateString("bn-BD" ,{
         dateStyle: "full"
     })
+
 
     // const [catagory,setCatagory]= useState("")
     
@@ -52,7 +51,7 @@ const Navbar= async ()=> {
           {/* User Profile */}
           <div className="relative">
             <Link href={"/sign-in"}>
-              <button className="px-4 py-3 text-[15px] font-semibold text-[#26332b] hover:text-green-700 transition-all duration-300">
+              <button className="px-4 py-3 text-[15px] font-semibold text-[#090909] hover:text-green-700 transition-all duration-300">
                 সাইন ইন
               </button>
             </Link>
@@ -94,27 +93,31 @@ const Navbar= async ()=> {
 
         {/* Category Navigation */}
         <nav className="border-t border-gray-100">
-          <div className="flex items-center gap-7 sm:gap-8 overflow-x-auto whitespace-nowrap scrollbar-hide min-h-11 px-1">
-            {categories.map((category:ICatagory,ind:number) => (
-              <Link href={`/catagory/${category.slug}`} key={ind}>
-              <button
-                className="cursor-pointer"
-                
-                
-                >
-                <span className="text-[13px]">{category.icon}</span>
+      <div className="flex min-h-11 items-center gap-7 overflow-x-auto whitespace-nowrap px-1 sm:gap-8">
+         {<CategoryNav categories={categories}></CategoryNav>}
+          
 
-                <span>{category.nameBn}</span>
-
-                
-              </button>
-                </Link>
-            ))}
-          </div>
-        </nav>
+          {/* // return (
+          //   <Link */}
+          {/* //     href={`/catagory/${category.slug}`}
+          //     key={category.slug}
+          //     className={`flex items-center gap-1.5 border-b-2 py-3 text-[13px] transition-colors                
+          //          "border-transparent font-medium text-gray-600 hover:text-[#047C37]"
+          //     `}
+          {/* //   >? */}
+          {/* //     <span>{category.icon}</span>
+          //     <span>{category.nameBn}</span>
+          //   </Link> */} 
+          {/* // ); */}
+        
+      </div>
+    </nav>
       </div>
         <Marquee/>
     </header>
   );
 }
 export default Navbar
+
+
+

@@ -1,30 +1,33 @@
+
+import React from "react";
 import Link from "next/link";
 
 export default function RegisterForm() {
   return (
-    <section className="min-h-[calc(100vh-150px)] bg-[#f0f5f0] flex items-center justify-center px-4 py-10">
-      <div className="w-full max-w-[500px]">
-        {/* Heading */}
-        <div className="text-center mb-5">
-          <h1 className="text-[22px] font-bold text-[#202923]">
+    <section className="flex min-h-[calc(100svh-150px)] items-center justify-center bg-[#f0f5f0] px-4 py-12 sm:px-6">
+
+      <div className="w-full max-w-110">
+
+        <div className="mb-7 text-center">
+          <h1 className="text-2xl font-bold tracking-tight text-[#202923] sm:text-3xl">
             অ্যাকাউন্ট তৈরি করুন
           </h1>
 
-          <p className="text-[12px] text-gray-500 mt-1">
-            বিনা খরচে সাইন আপ করে সব বিস্তারিত দাম দেখুন
+          <p className="mx-auto mt-2 max-w-90 text-sm leading-6 text-gray-500">
+            বিনা খরচে সাইন আপ করে বাজারের সব বিস্তারিত দাম ও তথ্য দেখুন।
           </p>
         </div>
 
-        {/* Registration Card */}
-        <div className="bg-[#f9fcf9] border border-[#e0e9e0] rounded-xl p-5">
+        <div className="rounded-2xl border border-[#e0e9e0] bg-[#f9fcf9] p-5 shadow-sm sm:p-7">
+
           <form action="/api/auth/register" method="POST">
-            {/* Name */}
-            <div className="mb-3">
+
+            <div className="mb-5">
               <label
                 htmlFor="name"
-                className="block text-[12px] font-semibold text-[#26332b] mb-1"
+                className="mb-2 block text-sm font-semibold text-[#26332b]"
               >
-                নাম
+                আপনার নাম
               </label>
 
               <input
@@ -34,15 +37,14 @@ export default function RegisterForm() {
                 placeholder="যেমন: রহিম উদ্দিন"
                 required
                 autoComplete="name"
-                className="w-full h-[34px] px-3 text-[12px] text-[#26332b] bg-transparent border border-[#e0e9e0] rounded-lg outline-none focus:border-[#078d46] focus:ring-2 focus:ring-green-100 transition-all"
+                className="h-11 w-full rounded-lg border border-[#dfe8df] bg-white px-3.5 text-sm text-[#26332b] outline-none transition-all placeholder:text-gray-400 focus:border-[#078d46] focus:ring-4 focus:ring-green-100"
               />
             </div>
 
-            {/* Email */}
-            <div className="mb-3">
+            <div className="mb-5">
               <label
                 htmlFor="email"
-                className="block text-[12px] font-semibold text-[#26332b] mb-1"
+                className="mb-2 block text-sm font-semibold text-[#26332b]"
               >
                 ইমেইল
               </label>
@@ -54,15 +56,14 @@ export default function RegisterForm() {
                 placeholder="you@example.com"
                 required
                 autoComplete="email"
-                className="w-full h-[34px] px-3 text-[12px] text-[#26332b] bg-transparent border border-[#e0e9e0] rounded-lg outline-none focus:border-[#078d46] focus:ring-2 focus:ring-green-100 transition-all"
+                className="h-11 w-full rounded-lg border border-[#dfe8df] bg-white px-3.5 text-sm text-[#26332b] outline-none transition-all placeholder:text-gray-400 focus:border-[#078d46] focus:ring-4 focus:ring-green-100"
               />
             </div>
 
-            {/* Password */}
-            <div className="mb-3">
+            <div className="mb-5">
               <label
                 htmlFor="password"
-                className="block text-[12px] font-semibold text-[#26332b] mb-1"
+                className="mb-2 block text-sm font-semibold text-[#26332b]"
               >
                 পাসওয়ার্ড
               </label>
@@ -75,15 +76,14 @@ export default function RegisterForm() {
                 required
                 minLength={8}
                 autoComplete="new-password"
-                className="w-full h-[34px] px-3 text-[12px] text-[#26332b] bg-transparent border border-[#e0e9e0] rounded-lg outline-none focus:border-[#078d46] focus:ring-2 focus:ring-green-100 transition-all"
+                className="h-11 w-full rounded-lg border border-[#dfe8df] bg-white px-3.5 text-sm text-[#26332b] outline-none transition-all placeholder:text-gray-400 focus:border-[#078d46] focus:ring-4 focus:ring-green-100"
               />
             </div>
 
-            {/* Confirm Password */}
-            <div className="mb-3">
+            <div className="mb-6">
               <label
                 htmlFor="confirmPassword"
-                className="block text-[12px] font-semibold text-[#26332b] mb-1"
+                className="mb-2 block text-sm font-semibold text-[#26332b]"
               >
                 পাসওয়ার্ড নিশ্চিত করুন
               </label>
@@ -92,40 +92,40 @@ export default function RegisterForm() {
                 id="confirmPassword"
                 name="confirmPassword"
                 type="password"
-                placeholder="আবার লিখুন"
+                placeholder="পাসওয়ার্ড আবার লিখুন"
                 required
                 minLength={8}
                 autoComplete="new-password"
-                className="w-full h-[34px] px-3 text-[12px] text-[#26332b] bg-transparent border border-[#e0e9e0] rounded-lg outline-none focus:border-[#078d46] focus:ring-2 focus:ring-green-100 transition-all"
+                className="h-11 w-full rounded-lg border border-[#dfe8df] bg-white px-3.5 text-sm text-[#26332b] outline-none transition-all placeholder:text-gray-400 focus:border-[#078d46] focus:ring-4 focus:ring-green-100"
               />
             </div>
 
-            {/* Submit Button */}
             <button
               type="submit"
-              className="w-full h-[35px] mt-1 bg-[#078d46] hover:bg-[#067a3d] text-white text-[12px] font-semibold rounded-lg shadow-[0_3px_5px_rgba(0,0,0,0.2)] transition-all duration-300 active:scale-[0.98]"
+              className="h-11 w-full cursor-pointer rounded-lg bg-[#078d46] text-sm font-semibold text-white shadow-sm transition-all duration-300 hover:bg-[#067a3d] hover:shadow-md active:scale-[0.98]"
             >
               অ্যাকাউন্ট তৈরি করুন
             </button>
+
           </form>
 
-          {/* Divider */}
-          <div className="flex items-center gap-3 my-4">
-            <div className="flex-1 h-px bg-[#e0e9e0]" />
+          <div className="my-6 flex items-center gap-4">
+            <div className="h-px flex-1 bg-[#e0e9e0]" />
 
-            <span className="text-[11px] text-gray-500">অথবা</span>
+            <span className="text-xs font-medium text-gray-400">
+              অথবা
+            </span>
 
-            <div className="flex-1 h-px bg-[#e0e9e0]" />
+            <div className="h-px flex-1 bg-[#e0e9e0]" />
           </div>
 
-          {/* Social Login */}
-          <div className="grid grid-cols-2 gap-2">
-            {/* Google */}
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+
             <Link
               href="/api/auth/signin/google"
-              className="h-[34px] flex items-center justify-center gap-1.5 border border-[#e0e9e0] rounded-lg text-[11px] font-semibold text-[#26332b] hover:bg-gray-100 transition-all"
+              className="flex h-11 items-center justify-center gap-2 rounded-lg border border-[#dfe8df] bg-white px-3 text-xs font-semibold text-[#26332b] transition-all hover:border-gray-300 hover:bg-gray-50 sm:text-sm"
             >
-              <svg viewBox="0 0 48 48" className="w-[13px] h-[13px]">
+              <svg viewBox="0 0 48 48" className="h-4 w-4 shrink-0">
                 <path
                   fill="#EA4335"
                   d="M24 9.5c3.5 0 6.7 1.2 9.2 3.6l6.8-6.8C35.8 2.4 30.4 0 24 0 14.7 0 6.6 5.3 2.7 13l7.9 6.1C12.5 13.1 17.8 9.5 24 9.5Z"
@@ -146,46 +146,48 @@ export default function RegisterForm() {
                   transform="translate(0 -3)"
                 />
               </svg>
+
               Google দিয়ে চালিয়ে যান
             </Link>
 
-            {/* GitHub */}
             <Link
               href="/api/auth/signin/github"
-              className="h-[34px] flex items-center justify-center gap-1.5 border border-[#e0e9e0] rounded-lg text-[11px] font-semibold text-[#26332b] hover:bg-gray-100 transition-all"
+              className="flex h-11 items-center justify-center gap-2 rounded-lg border border-[#dfe8df] bg-white px-3 text-xs font-semibold text-[#26332b] transition-all hover:border-gray-300 hover:bg-gray-50 sm:text-sm"
             >
               <svg
                 viewBox="0 0 24 24"
                 fill="currentColor"
-                className="w-[13px] h-[13px]"
+                className="h-4 w-4 shrink-0"
               >
                 <path d="M12 .9a11.1 11.1 0 0 0-3.5 21.6c.6.1.8-.3.8-.6v-2.1c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.1.1 1.7 1.1 1.7 1.1 1 1.7 2.6 1.2 3.3.9.1-.7.4-1.2.7-1.5-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.3.8 1 .8 2v3.3c0 .3.2.7.8.6A11.1 11.1 0 0 0 12 .9Z" />
               </svg>
+
               GitHub দিয়ে চালিয়ে যান
             </Link>
+
           </div>
 
-          {/* Sign In Link */}
-          <p className="text-center text-[11px] text-gray-600 mt-4">
+          <p className="mt-6 text-center text-sm text-gray-600">
             অ্যাকাউন্ট আছে?{" "}
             <Link
               href="/sign-in"
-              className="text-[#078d46] font-semibold hover:underline"
+              className="font-semibold text-[#078d46] transition-colors hover:text-[#056d36] hover:underline"
             >
               সাইন ইন করুন
             </Link>
           </p>
+
         </div>
 
-        {/* Back Home */}
-        <div className="text-center mt-5">
+        <div className="mt-6 text-center">
           <Link
             href="/"
-            className="text-[11px] text-gray-500 hover:text-[#078d46] transition-colors"
+            className="inline-flex items-center gap-1.5 text-sm text-gray-500 transition-colors hover:text-[#078d46]"
           >
             ← হোম পেজে ফিরে যান
           </Link>
         </div>
+
       </div>
     </section>
   );

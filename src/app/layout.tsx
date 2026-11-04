@@ -26,7 +26,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Suspense>
         <Navbar/>
         </Suspense>
+        <div className="bg-[#F0F5F0]">
         {children}
+        </div>
         <Footer/>
         </body>
     </html>

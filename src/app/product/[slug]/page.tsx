@@ -128,7 +128,7 @@ export default async function ProductPriceDetails({
           </div>
 
           {/* Today's Price */}
-          <div className="flex shrink-0 items-center justify-between gap-5 rounded-xl bg-[#f0f5f0] px-5 py-3 sm:min-w-[105px] sm:flex-col sm:gap-0 sm:text-center">
+          <div className="flex shrink-0 items-center justify-between gap-5 rounded-xl bg-[#f0f5f0] px-5 py-3 sm:min-w-26.25 sm:flex-col sm:gap-0 sm:text-center">
             <div>
               <p className="text-[11px] text-gray-500">আজকের দাম</p>
 
@@ -216,7 +216,7 @@ export default async function ProductPriceDetails({
 
             {/* Responsive Table */}
             <div className="overflow-x-auto rounded-xl border border-[#e4ece5]">
-              <table className="w-full min-w-[650px] border-collapse text-left text-xs">
+              <table className="w-full min-w-162.5 border-collapse text-left text-xs">
                 <thead>
                   <tr className="bg-[#f6f9f6] text-gray-500">
                     <th className="px-3 py-3 font-semibold">বাজার</th>
