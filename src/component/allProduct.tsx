@@ -15,9 +15,6 @@ const AllProduct = async() => {
             .slice(0, 6)
     
 
-    console.log(risers);
-    console.log(fallers);
-    console.log(allProduct);
     
     return (
         <>
