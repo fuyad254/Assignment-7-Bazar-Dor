@@ -1,38 +1,48 @@
-'use client'
+"use client";
 import React from "react";
 import Link from "next/link";
 import { authClient } from "../lib/auth-client";
 import { redirect } from "next/navigation";
 
 export default function RegisterForm() {
+  const handleSignUp = async (e: React.SubmitEvent<HTMLElement>) => {
+    e.preventDefault();
 
+    const formData = new FormData(e.target);
+    const user = Object.fromEntries(formData.entries()) as {
+      name: string;
+      email: string;
+      password: string;
+    };
 
-  const handleSignUp= async (e: React.SubmitEvent<HTMLElement>)=>{
-    e.preventDefault()
-
-    const formData= new FormData(e.target)
-    const user=  Object.fromEntries(formData.entries()) as {name:string, email:string, password:string}
-
-    const {data,error}= await authClient.signUp.email({
+    const { data, error } = await authClient.signUp.email({
       ...user,
-    })
+    });
 
-    if(data){
+    if (data) {
       // console.log(data);
-      redirect("/")
+      redirect("/");
     }
-    if(error){
+    if (error) {
       // console.log(error);
     }
-    
-  }
+  };
 
+  const handleGoogleSignUp = async () => {
+    const data = await authClient.signIn.social({
+      provider: "google",
+    });
+  };
+
+  const handleGithubSignUp = async () => {
+    const data = await authClient.signIn.social({
+      provider: "github",
+    });
+  };
 
   return (
     <section className="flex min-h-[calc(100svh-150px)] items-center justify-center bg-[#f0f5f0] px-4 py-12 sm:px-6">
-
       <div className="w-full max-w-110">
-
         <div className="mb-7 text-center">
           <h1 className="text-2xl font-bold tracking-tight text-[#202923] sm:text-3xl">
             অ্যাকাউন্ট তৈরি করুন
@@ -44,9 +54,11 @@ export default function RegisterForm() {
         </div>
 
         <div className="rounded-2xl border border-[#e0e9e0] bg-[#f9fcf9] p-5 shadow-sm sm:p-7">
-
-          <form action="/api/auth/register" method="POST" onSubmit={handleSignUp}>
-
+          <form
+            action="/api/auth/register"
+            method="POST"
+            onSubmit={handleSignUp}
+          >
             <div className="mb-5">
               <label
                 htmlFor="name"
@@ -131,24 +143,20 @@ export default function RegisterForm() {
             >
               অ্যাকাউন্ট তৈরি করুন
             </button>
-
           </form>
 
           <div className="my-6 flex items-center gap-4">
             <div className="h-px flex-1 bg-[#e0e9e0]" />
 
-            <span className="text-xs font-medium text-gray-400">
-              অথবা
-            </span>
+            <span className="text-xs font-medium text-gray-400">অথবা</span>
 
             <div className="h-px flex-1 bg-[#e0e9e0]" />
           </div>
 
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-
-            <Link
-              href="/api/auth/signin/google"
-              className="flex h-11 items-center justify-center gap-2 rounded-lg border border-[#dfe8df] bg-white px-3 text-xs font-semibold text-[#26332b] transition-all hover:border-gray-300 hover:bg-gray-50 sm:text-sm"
+            <button
+              onClick={handleGoogleSignUp}
+              className="flex cursor-pointer h-11 items-center justify-center gap-2 rounded-lg border border-[#dfe8df] bg-white px-3 text-xs font-semibold text-[#26332b] transition-all hover:border-gray-300 hover:bg-gray-50 sm:text-sm"
             >
               <svg viewBox="0 0 48 48" className="h-4 w-4 shrink-0">
                 <path
@@ -171,13 +179,12 @@ export default function RegisterForm() {
                   transform="translate(0 -3)"
                 />
               </svg>
-
               Google দিয়ে চালিয়ে যান
-            </Link>
+            </button>
 
-            <Link
-              href="/api/auth/signin/github"
-              className="flex h-11 items-center justify-center gap-2 rounded-lg border border-[#dfe8df] bg-white px-3 text-xs font-semibold text-[#26332b] transition-all hover:border-gray-300 hover:bg-gray-50 sm:text-sm"
+            <button
+              onClick={handleGithubSignUp}
+              className="flex cursor-pointer h-11 items-center justify-center gap-2 rounded-lg border border-[#dfe8df] bg-white px-3 text-xs font-semibold text-[#26332b] transition-all hover:border-gray-300 hover:bg-gray-50 sm:text-sm"
             >
               <svg
                 viewBox="0 0 24 24"
@@ -186,10 +193,8 @@ export default function RegisterForm() {
               >
                 <path d="M12 .9a11.1 11.1 0 0 0-3.5 21.6c.6.1.8-.3.8-.6v-2.1c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.1.1 1.7 1.1 1.7 1.1 1 1.7 2.6 1.2 3.3.9.1-.7.4-1.2.7-1.5-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.3.8 1 .8 2v3.3c0 .3.2.7.8.6A11.1 11.1 0 0 0 12 .9Z" />
               </svg>
-
               GitHub দিয়ে চালিয়ে যান
-            </Link>
-
+            </button>
           </div>
 
           <p className="mt-6 text-center text-sm text-gray-600">
@@ -201,7 +206,6 @@ export default function RegisterForm() {
               সাইন ইন করুন
             </Link>
           </p>
-
         </div>
 
         <div className="mt-6 text-center">
@@ -212,7 +216,6 @@ export default function RegisterForm() {
             ← হোম পেজে ফিরে যান
           </Link>
         </div>
-
       </div>
     </section>
   );

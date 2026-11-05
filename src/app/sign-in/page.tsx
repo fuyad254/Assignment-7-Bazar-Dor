@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React from "react";
 import Link from "next/link";
 import { authClient } from "../lib/auth-client";
@@ -19,13 +19,25 @@ export default function SignInForm() {
       ...user,
     });
 
-    if(data){
-          // console.log(data);
-          redirect("/")
-        }
+    if (data) {
+      // console.log(data);
+      redirect("/");
+    }
     if (error) {
       // console.log(error);
     }
+  };
+
+  const handleGoogleSignIn = async () => {
+    const data = await authClient.signIn.social({
+      provider: "google",
+    });
+  };
+
+  const handleGithubSignIn = async () => {
+    const data = await authClient.signIn.social({
+      provider: "github",
+    });
   };
 
   return (
@@ -42,70 +54,70 @@ export default function SignInForm() {
           </p>
         </div>
 
-
         <div className="rounded-2xl border border-[#e0e9e0] bg-[#f9fcf9] p-5 shadow-sm sm:p-7">
-        <form
-          action="/api/auth/register" method="POST" onSubmit={handleSignIn}
-        >
-          <div className="mb-5">
-            <label
-              htmlFor="email"
-              className="mb-2 block text-sm font-semibold text-[#26332b]"
-            >
-              ইমেইল
-            </label>
-
-            <input
-              type="email"
-              id="email"
-              name="email"
-              placeholder="you@example.com"
-              autoComplete="email"
-              required
-              className="h-11 w-full rounded-lg border border-[#dfe8df] bg-white px-3.5 text-sm text-[#26332b] outline-none transition-all placeholder:text-gray-400 focus:border-[#078d46] focus:ring-4 focus:ring-green-100"
-            />
-          </div>
-
-          <div className="mb-5">
-            <label
-              htmlFor="password"
-              className="mb-2 block text-sm font-semibold text-[#26332b]"
-            >
-              পাসওয়ার্ড
-            </label>
-
-            <input
-              type="password"
-              id="password"
-              name="password"
-              placeholder="আপনার পাসওয়ার্ড লিখুন"
-              autoComplete="current-password"
-              required
-              className="h-11 w-full rounded-lg border border-[#dfe8df] bg-white px-3.5 text-sm text-[#26332b] outline-none transition-all placeholder:text-gray-400 focus:border-[#078d46] focus:ring-4 focus:ring-green-100"
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="h-11 w-full cursor-pointer rounded-lg bg-[#078d46] text-sm font-semibold text-white shadow-sm transition-all duration-300 hover:bg-[#067a3d] hover:shadow-md active:scale-[0.98]"
+          <form
+            action="/api/auth/register"
+            method="POST"
+            onSubmit={handleSignIn}
           >
-            সাইন ইন করুন
-          </button>
-
-          <div className="my-6 flex items-center gap-4">
-            <div className="h-px flex-1 bg-[#e0e9e0]" />
-
-            <span className="text-xs font-medium text-gray-400">অথবা</span>
-
-            <div className="h-px flex-1 bg-[#e0e9e0]" />
-          </div>
-
-            </form>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            <Link
-              href="/api/auth/signin/google"
-              className="flex h-11 items-center justify-center gap-2 rounded-lg border border-[#dfe8df] bg-white px-3 text-xs font-semibold text-[#26332b] transition-all hover:border-gray-300 hover:bg-gray-50 sm:text-sm"
+            <div className="mb-5">
+              <label
+                htmlFor="email"
+                className="mb-2 block text-sm font-semibold text-[#26332b]"
               >
+                ইমেইল
+              </label>
+
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="you@example.com"
+                autoComplete="email"
+                required
+                className="h-11 w-full rounded-lg border border-[#dfe8df] bg-white px-3.5 text-sm text-[#26332b] outline-none transition-all placeholder:text-gray-400 focus:border-[#078d46] focus:ring-4 focus:ring-green-100"
+              />
+            </div>
+
+            <div className="mb-5">
+              <label
+                htmlFor="password"
+                className="mb-2 block text-sm font-semibold text-[#26332b]"
+              >
+                পাসওয়ার্ড
+              </label>
+
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="আপনার পাসওয়ার্ড লিখুন"
+                autoComplete="current-password"
+                required
+                className="h-11 w-full rounded-lg border border-[#dfe8df] bg-white px-3.5 text-sm text-[#26332b] outline-none transition-all placeholder:text-gray-400 focus:border-[#078d46] focus:ring-4 focus:ring-green-100"
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="h-11 w-full cursor-pointer rounded-lg bg-[#078d46] text-sm font-semibold text-white shadow-sm transition-all duration-300 hover:bg-[#067a3d] hover:shadow-md active:scale-[0.98]"
+            >
+              সাইন ইন করুন
+            </button>
+
+            <div className="my-6 flex items-center gap-4">
+              <div className="h-px flex-1 bg-[#e0e9e0]" />
+
+              <span className="text-xs font-medium text-gray-400">অথবা</span>
+
+              <div className="h-px flex-1 bg-[#e0e9e0]" />
+            </div>
+          </form>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <button
+              onClick={handleGoogleSignIn}
+              className="flex cursor-pointer h-11 items-center justify-center gap-2 rounded-lg border border-[#dfe8df] bg-white px-3 text-xs font-semibold text-[#26332b] transition-all hover:border-gray-300 hover:bg-gray-50 sm:text-sm"
+            >
               <svg viewBox="0 0 48 48" className="h-4 w-4 shrink-0">
                 <path
                   fill="#EA4335"
@@ -128,11 +140,11 @@ export default function SignInForm() {
                 />
               </svg>
               Google দিয়ে চালিয়ে যান
-            </Link>
+            </button>
 
-            <Link
-              href="/api/auth/signin/github"
-              className="flex h-11 items-center justify-center gap-2 rounded-lg border border-[#dfe8df] bg-white px-3 text-xs font-semibold text-[#26332b] transition-all hover:border-gray-300 hover:bg-gray-50 sm:text-sm"
+            <button
+              onClick={handleGithubSignIn}
+              className="flex cursor-pointer h-11 items-center justify-center gap-2 rounded-lg border border-[#dfe8df] bg-white px-3 text-xs font-semibold text-[#26332b] transition-all hover:border-gray-300 hover:bg-gray-50 sm:text-sm"
             >
               <svg
                 viewBox="0 0 24 24"
@@ -142,7 +154,7 @@ export default function SignInForm() {
                 <path d="M12 .9a11.1 11.1 0 0 0-3.5 21.6c.6.1.8-.3.8-.6v-2.1c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.1.1 1.7 1.1 1.7 1.1 1 1.7 2.6 1.2 3.3.9.1-.7.4-1.2.7-1.5-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.3.8 1 .8 2v3.3c0 .3.2.7.8.6A11.1 11.1 0 0 0 12 .9Z" />
               </svg>
               GitHub দিয়ে চালিয়ে যান
-            </Link>
+            </button>
           </div>
 
           <p className="mt-6 text-center text-sm text-gray-600">

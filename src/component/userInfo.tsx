@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from "react";
 import { authClient } from "@/app/lib/auth-client";
 import Link from "next/link";
-import Image from "next/image";
 
 const UserInfo = () => {
   const { data: session } = authClient.useSession();
@@ -72,17 +71,11 @@ const UserInfo = () => {
             {/* User Image */}
             <span className="relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-emerald-100 ring-2 ring-gray-100">
 
-              {user?.image ? (
-                <Image
-                  src={user.image}
-                  alt={user.name || "User"}
-                  className="h-full w-full object-cover"
-                />
-              ) : (
+             
                 <span className="text-base font-bold text-emerald-700">
                   {user?.name?.charAt(0)?.toUpperCase()}
                 </span>
-              )}
+              
 
             </span>
 
