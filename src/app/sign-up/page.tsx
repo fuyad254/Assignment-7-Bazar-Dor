@@ -1,8 +1,33 @@
-
+'use client'
 import React from "react";
 import Link from "next/link";
+import { authClient } from "../lib/auth-client";
+import { redirect } from "next/navigation";
 
 export default function RegisterForm() {
+
+
+  const handleSignUp= async (e: React.SubmitEvent<HTMLElement>)=>{
+    e.preventDefault()
+
+    const formData= new FormData(e.target)
+    const user=  Object.fromEntries(formData.entries()) as {name:string, email:string, password:string}
+
+    const {data,error}= await authClient.signUp.email({
+      ...user,
+    })
+
+    if(data){
+      // console.log(data);
+      redirect("/")
+    }
+    if(error){
+      // console.log(error);
+    }
+    
+  }
+
+
   return (
     <section className="flex min-h-[calc(100svh-150px)] items-center justify-center bg-[#f0f5f0] px-4 py-12 sm:px-6">
 
@@ -20,7 +45,7 @@ export default function RegisterForm() {
 
         <div className="rounded-2xl border border-[#e0e9e0] bg-[#f9fcf9] p-5 shadow-sm sm:p-7">
 
-          <form action="/api/auth/register" method="POST">
+          <form action="/api/auth/register" method="POST" onSubmit={handleSignUp}>
 
             <div className="mb-5">
               <label

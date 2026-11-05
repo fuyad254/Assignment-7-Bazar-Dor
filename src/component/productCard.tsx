@@ -25,9 +25,9 @@ export default function ProductCard({ product }: ProductCardProps) {
   const direction = product.change?.dir ?? "flat";
 
   const badgeColor =
-    direction === "up"
+    direction === "down"
       ? "bg-green-100 text-green-700"
-      : direction === "down"
+      : direction === "up"
         ? "bg-red-100 text-red-700"
         : "bg-gray-100 text-gray-600";
 

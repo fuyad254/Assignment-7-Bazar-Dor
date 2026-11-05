@@ -143,10 +143,10 @@ export default async function ProductPriceDetails({
 
             <div
               className={`flex items-center gap-1 text-xs font-semibold ${
-                isUp ? "text-red-500" : "text-green-600"
+                !isUp ? "text-red-500" : "text-green-600"
               }`}
             >
-              <span>{isUp ? "▲" : "▼"}</span>
+              <span>{!isUp ? "▲" : "▼"}</span>
               <span>{formatPrice(product.change.pct)}%</span>
             </div>
           </div>
