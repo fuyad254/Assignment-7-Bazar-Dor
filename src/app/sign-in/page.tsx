@@ -1,7 +1,33 @@
+'use client'
 import React from "react";
 import Link from "next/link";
+import { authClient } from "../lib/auth-client";
+import { redirect } from "next/navigation";
 
 export default function SignInForm() {
+  const handleSignIn = async (e: React.SubmitEvent<HTMLElement>) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const user = Object.fromEntries(formData.entries()) as {
+      name: string;
+      email: string;
+      password: string;
+    };
+
+    const { data, error } = await authClient.signIn.email({
+      ...user,
+    });
+
+    if(data){
+          // console.log(data);
+          redirect("/")
+        }
+    if (error) {
+      // console.log(error);
+    }
+  };
+
   return (
     <section className="flex min-h-[calc(100svh-150px)] items-center justify-center bg-[#f0f5f0] px-4 py-12 sm:px-6">
       <div className="w-full max-w-110">
@@ -16,7 +42,11 @@ export default function SignInForm() {
           </p>
         </div>
 
+
         <div className="rounded-2xl border border-[#e0e9e0] bg-[#f9fcf9] p-5 shadow-sm sm:p-7">
+        <form
+          action="/api/auth/register" method="POST" onSubmit={handleSignIn}
+        >
           <div className="mb-5">
             <label
               htmlFor="email"
@@ -56,7 +86,7 @@ export default function SignInForm() {
           </div>
 
           <button
-            type="button"
+            type="submit"
             className="h-11 w-full cursor-pointer rounded-lg bg-[#078d46] text-sm font-semibold text-white shadow-sm transition-all duration-300 hover:bg-[#067a3d] hover:shadow-md active:scale-[0.98]"
           >
             সাইন ইন করুন
@@ -70,11 +100,12 @@ export default function SignInForm() {
             <div className="h-px flex-1 bg-[#e0e9e0]" />
           </div>
 
+            </form>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <Link
               href="/api/auth/signin/google"
               className="flex h-11 items-center justify-center gap-2 rounded-lg border border-[#dfe8df] bg-white px-3 text-xs font-semibold text-[#26332b] transition-all hover:border-gray-300 hover:bg-gray-50 sm:text-sm"
-            >
+              >
               <svg viewBox="0 0 48 48" className="h-4 w-4 shrink-0">
                 <path
                   fill="#EA4335"

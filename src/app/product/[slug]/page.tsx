@@ -1,36 +1,9 @@
-// interface Market {
-//   market: string;
-//   division: string;
-//   min: number;
-//   max: number;
-// }
+
 
 import { IMarket } from "@/type/market";
 import { IProducts } from "@/type/products";
 
-// interface Product {
-//   id: number;
-//   slug: string;
-//   nameBn: string;
-//   category: string;
-//   categoryNameBn: string;
-//   categoryIcon: string;
-//   unit: string;
-//   image: string;
-//   today: number;
-//   yesterday: number;
-//   lastWeek: number;
-//   lastMonth: number;
-//   change: {
-//     dir: "up" | "down";
-//     pct: number;
-//   };
-//   markets: Market[];
-// }
 
-// interface ProductPriceDetailsProps {
-//   product: Product;
-// }
 
 const numberFormat = new Intl.NumberFormat("bn-BD");
 
