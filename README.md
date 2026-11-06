@@ -20,6 +20,12 @@
 
 The application fetches product and category information from the Programming Hero Bazar Dor API. Users can browse products, sort category listings, view detailed price summaries, and access account features.
 
+<p align="center">
+  <a href="https://assignment-7-bazar-dor-bz.vercel.app/"><strong>🌐 Live Demo</strong></a>
+  &nbsp; • &nbsp;
+  
+</p>
+
 ## ✨ Key Features
 
 - **Daily Price Highlights** — Separate sections for products with rising and falling prices.
