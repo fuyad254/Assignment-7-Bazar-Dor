@@ -9,7 +9,7 @@
 <p align="center">
   <a href="https://assignment-7-bazar-dor-bz.vercel.app/"><strong>🌐 Live Demo</strong></a>
   &nbsp; • &nbsp;
-  <a href="https://github.com/fuyad254/Assignment-7-Bazar-Dor"><strong>📁 Source Code</strong></a>
+  
 </p>
 
 ---
