@@ -4,12 +4,11 @@ import "./globals.css";
 import Navbar from "@/component/navbar";
 import { Suspense } from "react";
 import Footer from "@/component/footer";
+import { Toaster } from "react-hot-toast";
 
 const notoSerifBengali = Noto_Serif_Bengali({
-  subsets: ["latin","bengali"],
+  subsets: ["latin", "bengali"],
 });
-
-
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,18 +18,18 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
-      lang="en" data-theme="light"
+      lang="en"
+      data-theme="light"
       className={`${notoSerifBengali}  h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <Suspense>
-        <Navbar/>
+          <Navbar />
         </Suspense>
-        <div className="bg-[#F0F5F0]">
-        {children}
-        </div>
-        <Footer/>
-        </body>
+        <div className="bg-[#F0F5F0]">{children}</div>
+        <Footer />
+        <Toaster position="top-center" />
+      </body>
     </html>
   );
 }

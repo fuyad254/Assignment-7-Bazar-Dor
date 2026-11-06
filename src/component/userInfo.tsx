@@ -1,14 +1,20 @@
-'use client'
+"use client";
 
 import { useState, useEffect, useRef } from "react";
 import { authClient } from "@/app/lib/auth-client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const UserInfo = () => {
-  const { data: session } = authClient.useSession();
+  const { data: session, isPending } = authClient.useSession();
   const user = session?.user;
 
+  const router = useRouter();
+
   const [isOpen, setIsOpen] = useState(false);
+  const [isSigningOut, setIsSigningOut] = useState(false);
+
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
   // Click outside to close dropdown
@@ -33,16 +39,40 @@ const UserInfo = () => {
   // Sign Out
   const handleSignOut = async () => {
     try {
-      await authClient.signOut();
+      setIsSigningOut(true);
+
+      const { error } = await authClient.signOut();
+
+      if (error) {
+        toast.error(error.message || "সাইন আউট করা যায়নি!");
+        return;
+      }
+
+      toast.success("সফলভাবে সাইন আউট হয়েছে!");
+
       setIsOpen(false);
+
+      router.push("/sign-in");
+      router.refresh();
     } catch (error) {
       console.error("Sign out failed:", error);
+      toast.error("সাইন আউট করতে সমস্যা হয়েছে!");
+    } finally {
+      setIsSigningOut(false);
     }
   };
 
   return (
     <div>
-      {!user ? (
+      {isPending ? (
+        // Session Loading
+        <div className="flex items-center gap-2 px-4 py-3">
+          <span className="w-5 h-5 border-2 border-green-600 border-t-transparent rounded-full animate-spin" />
+          <span className="text-sm font-medium text-gray-500">
+            লোড হচ্ছে...
+          </span>
+        </div>
+      ) : !user ? (
         // Login / Signup Buttons
         <div className="relative flex items-center">
           <Link href="/sign-in">
@@ -60,9 +90,9 @@ const UserInfo = () => {
       ) : (
         // User Profile Dropdown
         <div className="relative" ref={dropdownRef}>
-
           {/* Profile Toggle Button */}
           <button
+            type="button"
             onClick={() => setIsOpen(!isOpen)}
             className="flex items-center gap-2 rounded-xl p-1.5 hover:bg-gray-100 transition-all duration-300"
             aria-expanded={isOpen}
@@ -70,18 +100,14 @@ const UserInfo = () => {
           >
             {/* User Image */}
             <span className="relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-emerald-100 ring-2 ring-gray-100">
-
-             
-                <span className="text-base font-bold text-emerald-700">
-                  {user?.name?.charAt(0)?.toUpperCase()}
-                </span>
-              
-
+              <span className="text-base font-bold text-emerald-700">
+                {user.name?.charAt(0)?.toUpperCase() || "U"}
+              </span>
             </span>
 
             {/* User Name */}
             <span className="text-[15px] font-medium text-gray-800">
-              {user?.name}
+              {user.name}
             </span>
 
             {/* Dropdown Arrow */}
@@ -110,15 +136,14 @@ const UserInfo = () => {
                 : "invisible opacity-0 scale-95 -translate-y-2"
             }`}
           >
-
             {/* User Information */}
             <div className="mb-4">
               <h3 className="text-[15px] font-semibold text-gray-800">
-                {user?.name}
+                {user.name}
               </h3>
 
               <p className="mt-0.5 text-[13px] text-gray-500 break-all">
-                {user?.email}
+                {user.email}
               </p>
             </div>
 
@@ -150,26 +175,36 @@ const UserInfo = () => {
 
             {/* Sign Out */}
             <button
+              type="button"
               onClick={handleSignOut}
-              className="flex w-full items-center gap-2 py-2 text-left text-[14px] text-red-500 hover:text-red-700 transition-colors duration-200"
+              disabled={isSigningOut}
+              className="flex w-full items-center gap-2 py-2 text-left text-[14px] text-red-500 hover:text-red-700 transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              <svg
-                className="w-4.5 h-4.5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="1.7"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15 12H3m0 0l4-4m-4 4l4 4m5-12h5a2 2 0 012 2v12a2 2 0 01-2 2h-5"
-                />
-              </svg>
+              {isSigningOut ? (
+                <>
+                  <span className="w-4 h-4 border-2 border-red-500 border-t-transparent rounded-full animate-spin" />
+                  সাইন আউট হচ্ছে...
+                </>
+              ) : (
+                <>
+                  <svg
+                    className="w-4.5 h-4.5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth="1.7"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15 12H3m0 0l4-4m-4 4l4 4m5-12h5a2 2 0 012 2v12a2 2 0 01-2 2h-5"
+                    />
+                  </svg>
 
-              সাইন আউট
+                  সাইন আউট
+                </>
+              )}
             </button>
-
           </div>
         </div>
       )}

@@ -1,43 +1,88 @@
 "use client";
-import React from "react";
+
+import React, { useState } from "react";
 import Link from "next/link";
 import { authClient } from "../lib/auth-client";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import { FcGoogle } from "react-icons/fc";
+import { FaGithubSquare } from "react-icons/fa";
 
 export default function SignInForm() {
-  const handleSignIn = async (e: React.SubmitEvent<HTMLElement>) => {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const formData = new FormData(e.target);
+    if (isLoading) return;
+
+    const formData = new FormData(e.currentTarget);
+
     const user = Object.fromEntries(formData.entries()) as {
-      name: string;
       email: string;
       password: string;
     };
 
-    const { data, error } = await authClient.signIn.email({
-      ...user,
-    });
-
-    if (data) {
-      // console.log(data);
-      redirect("/");
+    if (!user.email || !user.password) {
+      toast.error("ইমেইল ও পাসওয়ার্ড লিখুন");
+      return;
     }
-    if (error) {
-      // console.log(error);
+
+    setIsLoading(true);
+
+    try {
+      const { data, error } = await authClient.signIn.email({
+        email: user.email,
+        password: user.password,
+      });
+
+      if (error) {
+        toast.error(error.message || "ইমেইল অথবা পাসওয়ার্ড ভুল হয়েছে!");
+        return;
+      }
+
+      if (data) {
+        toast.success("সফলভাবে সাইন ইন হয়েছে!");
+        router.push("/");
+        router.refresh();
+      }
+    } catch (error) {
+      console.error("Signin error:", error);
+      toast.error("কিছু একটা সমস্যা হয়েছে। আবার চেষ্টা করুন!");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleGoogleSignIn = async () => {
-    const data = await authClient.signIn.social({
-      provider: "google",
-    });
+    try {
+      const { error } = await authClient.signIn.social({
+        provider: "google",
+      });
+
+      if (error) {
+        toast.error(error.message || "Google দিয়ে সাইন ইন করা সম্ভব হয়নি!");
+      }
+    } catch (error) {
+      console.error("Google signin error:", error);
+      toast.error("Google Sign In ব্যর্থ হয়েছে!");
+    }
   };
 
   const handleGithubSignIn = async () => {
-    const data = await authClient.signIn.social({
-      provider: "github",
-    });
+    try {
+      const { error } = await authClient.signIn.social({
+        provider: "github",
+      });
+
+      if (error) {
+        toast.error(error.message || "GitHub দিয়ে সাইন ইন করা সম্ভব হয়নি!");
+      }
+    } catch (error) {
+      console.error("Github signin error:", error);
+      toast.error("GitHub Sign In ব্যর্থ হয়েছে!");
+    }
   };
 
   return (
@@ -55,11 +100,7 @@ export default function SignInForm() {
         </div>
 
         <div className="rounded-2xl border border-[#e0e9e0] bg-[#f9fcf9] p-5 shadow-sm sm:p-7">
-          <form
-            action="/api/auth/register"
-            method="POST"
-            onSubmit={handleSignIn}
-          >
+          <form onSubmit={handleSignIn}>
             <div className="mb-5">
               <label
                 htmlFor="email"
@@ -100,9 +141,35 @@ export default function SignInForm() {
 
             <button
               type="submit"
-              className="h-11 w-full cursor-pointer rounded-lg bg-[#078d46] text-sm font-semibold text-white shadow-sm transition-all duration-300 hover:bg-[#067a3d] hover:shadow-md active:scale-[0.98]"
+              disabled={isLoading}
+              className="h-11 w-full cursor-pointer rounded-lg bg-[#078d46] text-sm font-semibold text-white shadow-sm transition-all duration-300 hover:bg-[#067a3d] hover:shadow-md active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-70"
             >
-              সাইন ইন করুন
+              {isLoading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <svg
+                    className="h-4 w-4 animate-spin"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                    />
+                  </svg>
+                  সাইন ইন হচ্ছে...
+                </span>
+              ) : (
+                "সাইন ইন করুন"
+              )}
             </button>
 
             <div className="my-6 flex items-center gap-4">
@@ -113,46 +180,23 @@ export default function SignInForm() {
               <div className="h-px flex-1 bg-[#e0e9e0]" />
             </div>
           </form>
+
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <button
+              type="button"
               onClick={handleGoogleSignIn}
-              className="flex cursor-pointer h-11 items-center justify-center gap-2 rounded-lg border border-[#dfe8df] bg-white px-3 text-xs font-semibold text-[#26332b] transition-all hover:border-gray-300 hover:bg-gray-50 sm:text-sm"
+              className="flex h-12 cursor-pointer items-center justify-center gap-2.5 rounded-lg border border-[#dfe8df] bg-white px-3 text-sm font-semibold text-[#26332b] transition-all hover:border-gray-300 hover:bg-gray-50"
             >
-              <svg viewBox="0 0 48 48" className="h-4 w-4 shrink-0">
-                <path
-                  fill="#EA4335"
-                  d="M24 9.5c3.5 0 6.7 1.2 9.2 3.6l6.8-6.8C35.8 2.4 30.4 0 24 0 14.7 0 6.6 5.3 2.7 13l7.9 6.1C12.5 13.1 17.8 9.5 24 9.5Z"
-                  transform="translate(0 3)"
-                />
-                <path
-                  fill="#4285F4"
-                  d="M47.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h13.2c-.6 2.9-2.3 5.3-4.8 6.9l7.4 5.7c4.3-4 7.7-9.9 7.7-17.1Z"
-                />
-                <path
-                  fill="#FBBC05"
-                  d="M10.6 28.7a14.4 14.4 0 0 1 0-9.4l-7.9-6.1a24 24 0 0 0 0 21.6l7.9-6.1Z"
-                  transform="translate(0 3)"
-                />
-                <path
-                  fill="#34A853"
-                  d="M24 48c6.5 0 11.9-2.1 15.8-5.7l-7.4-5.7c-2.1 1.4-4.8 2.2-8.4 2.2-6.2 0-11.5-3.6-13.4-8.8l-7.9 6.1C6.6 43.7 14.7 48 24 48Z"
-                  transform="translate(0 -3)"
-                />
-              </svg>
+              <FcGoogle className="h-5 w-5 shrink-0" />
               Google দিয়ে চালিয়ে যান
             </button>
 
             <button
+              type="button"
               onClick={handleGithubSignIn}
-              className="flex cursor-pointer h-11 items-center justify-center gap-2 rounded-lg border border-[#dfe8df] bg-white px-3 text-xs font-semibold text-[#26332b] transition-all hover:border-gray-300 hover:bg-gray-50 sm:text-sm"
+              className="flex h-12 cursor-pointer items-center justify-center gap-2.5 rounded-lg border border-[#dfe8df] bg-white px-3 text-sm font-semibold text-[#26332b] transition-all hover:border-gray-300 hover:bg-gray-50"
             >
-              <svg
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="h-4 w-4 shrink-0"
-              >
-                <path d="M12 .9a11.1 11.1 0 0 0-3.5 21.6c.6.1.8-.3.8-.6v-2.1c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.1.1 1.7 1.1 1.7 1.1 1 1.7 2.6 1.2 3.3.9.1-.7.4-1.2.7-1.5-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.3.8 1 .8 2v3.3c0 .3.2.7.8.6A11.1 11.1 0 0 0 12 .9Z" />
-              </svg>
+              <FaGithubSquare className="h-5 w-5 shrink-0" />
               GitHub দিয়ে চালিয়ে যান
             </button>
           </div>

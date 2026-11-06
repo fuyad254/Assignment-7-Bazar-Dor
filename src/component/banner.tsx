@@ -36,7 +36,6 @@ const Banner = () => {
                 type="button"
                 onClick={() => {
                   document.getElementById("allProduct")?.scrollIntoView({
-                    behavior: "smooth",
                     block: "start",
                   });
                 }}
