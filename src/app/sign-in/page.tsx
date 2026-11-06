@@ -43,7 +43,7 @@ export default function SignInForm() {
       }
 
       if (data) {
-        toast.success("সফলভাবে সাইন ইন হয়েছে!");
+        toast.success("সফলভাবে সাইন ইন হয়েছে।");
         router.push("/");
         router.refresh();
       }
